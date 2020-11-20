@@ -17,7 +17,6 @@ corsi_data = 'corsi.csv'
 cors = pd.read_csv(corsi_data, header=0)
 corsi = pd.DataFrame(cors)
 
-
 #identifies headers of the columns for both lists
 corsi_headers = list(cors.columns)
 fantrax_headers = list(df.columns)
@@ -32,10 +31,9 @@ mergedStuff.head()
 merge = mergedStuff.values.tolist()
 combined_master = pd.DataFrame(mergedStuff)
 
-for col in combined_master.columns:
-  print(col)
+print(combined_master.columns)
 
-#List created for output location
+#master list
 master = []
 
 #Pulls from combined_master DF and puts it in new organzied list
@@ -53,12 +51,10 @@ writer = pd.ExcelWriter('hockey_output.xlsx', engine='xlsxwriter')
 #Creates and sorts Agent list by Games played and CF
 free_agents = pd.DataFrame(master_df[master_df['Status'].str.contains('FA|W ')])
 free_final = free_agents.sort_values(by=['Games Played','CF'], ascending=False)
-print(free_final)
 
 #Creates and sorts Taken list by Games played and CF
 taken_players = pd.DataFrame(master_df[~master_df['Status'].str.contains('FA|W ')])
 taken_final = taken_players.sort_values(by=['CF','FP/Game'], ascending=False)
-print(taken_final)
 
 # Convert the dataframe to an XlsxWriter Excel object.
 free_final.to_excel(writer, sheet_name='Free Agents', index=False)
